@@ -21,7 +21,6 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
         float distance = (cam.transform.position.x * parallaxEffect);
         transform.position = new Vector3 (startPos+ distance, transform.position.y, transform.position.z);
     }

@@ -4,30 +4,38 @@ using UnityEngine;
 
 public class MoveBackgrounds : MonoBehaviour
 {
-    private float length;
-    private float startPos;
-    private Camera cam;
-    [SerializeField]private float parallaxEffect;
+    [SerializeField] private float speed;
+    public Transform[] backgrounds;
+
+    float leftPosX = 0f;
+    float rightPosX = 0f;
+    float xScreenHalfSize;
+    float yScreenHalfSize;
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        cam = GetComponent<Camera>();
-        startPos = transform.position.x;
-        length = GetComponent<SpriteRenderer>().bounds.size.x;
+        yScreenHalfSize = Camera.main.orthographicSize;
+        xScreenHalfSize = yScreenHalfSize * Camera.main.aspect;
+
+        leftPosX = -(xScreenHalfSize * 2);
+        rightPosX = xScreenHalfSize * 2 * backgrounds.Length; 
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        float temp = (cam.transform.position.x * (1 - (parallaxEffect)));
-        float distance = (cam.transform.position.x * parallaxEffect);
-        transform.position = new Vector3(startPos + distance, transform.position.y,transform.position.z);
-
-        if (temp > startPos + length) 
+        for ( int i = 0; i < backgrounds.Length; i++ )
         {
-            startPos += length;
+            backgrounds[i].position += new Vector3(-speed, 0, 0) * Time.deltaTime;
+
+            if (backgrounds[i].position.x <leftPosX )
+            {
+                Vector3 nextPos = backgrounds[i].position;
+                nextPos = new Vector3(nextPos.x + rightPosX , nextPos.y , nextPos.z);
+                backgrounds[i].position = nextPos;
+            }
         }
     }
 }
