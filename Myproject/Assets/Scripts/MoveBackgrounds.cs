@@ -7,24 +7,23 @@ public class MoveBackgrounds : MonoBehaviour
     [SerializeField] private float speed;
     public Transform[] backgrounds;
 
-    float leftPosX = 0f;
-    float rightPosX = 0f;
-    float xScreenHalfSize;
-    float yScreenHalfSize;
+    private float leftPosX = 0f;
+    private float rightPosX = 0f;
+    private float xScreenHalfSize;
+    private float yScreenHalfSize;
 
 
-    void Start()
+    private void Start()
     {
         yScreenHalfSize = Camera.main.orthographicSize;
         xScreenHalfSize = yScreenHalfSize * Camera.main.aspect;
 
         leftPosX = -(xScreenHalfSize * 2);
         rightPosX = xScreenHalfSize * 2 * backgrounds.Length; 
-        
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         for ( int i = 0; i < backgrounds.Length; i++ )
         {

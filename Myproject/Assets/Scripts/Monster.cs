@@ -5,23 +5,38 @@ using UnityEngine.UIElements;
 
 public class Monster : MonoBehaviour
 {
-    private float length;
-    private float startPos;
-    private GameObject cam;
-    [SerializeField] private float parallaxEffect;
+    [SerializeField] private float speed;
+    public Transform[] monsters;
+
+    private float StartpositionX;
+    
+    private float rightPosX = 0f;
+
+    private GameObject WaitingLine;
+    private float waitwaitingLineX;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        cam = GameObject.Find("Main Camera");
-        startPos = transform.position.x;
-        length = GetComponent<SpriteRenderer>().bounds.size.x;
+        StartpositionX = GetComponent<Transform>().position.x;
+
+        rightPosX = waitwaitingLineX + 24f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float distance = (cam.transform.position.x * parallaxEffect);
-        transform.position = new Vector3 (startPos+ distance, transform.position.y, transform.position.z);
+        for (int i = 0; i < monsters.Length; i++)
+        {
+            monsters[i].position += new Vector3(-speed, 0, 0) * Time.deltaTime;
+
+            if (monsters[i].position.x < waitwaitingLineX)
+            {
+                Vector3 nextPos = monsters[i].position;
+                nextPos = new Vector3(nextPos.x + rightPosX, nextPos.y, nextPos.z);
+                monsters[i].position = nextPos;
+            }
+        }
     }
 }
